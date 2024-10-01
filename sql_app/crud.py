@@ -4,9 +4,11 @@ from fastapi import HTTPException
 from sqlalchemy import desc, exists, update
 from sqlalchemy.orm import Session
 
-from models import Order, Product
-from schemas import CreateOrderSchema, CreateProductSchema, UpdateProductSchema
-from services import (
+from sql_app.models import Order, Product
+from sql_app.schemas import (
+    CreateOrderSchema, CreateProductSchema, UpdateProductSchema
+)
+from sql_app.services import (
     get_item_objects_and_total_stock_balance, prepare_order_to_response,
     validate_and_get_order_items
 )
@@ -33,7 +35,13 @@ def get_all_products(db: Session):
 
 
 def get_one_product(db: Session, product_id: int):
-    return db.query(Product).filter(Product.id == product_id).first()
+    db_product = db.query(Product).filter(Product.id == product_id).first()
+    if not db_product:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail=f"Product with id {product_id} not found"
+        )
+    return db_product
 
 
 def put_product(db: Session, product: UpdateProductSchema, product_id: int):
@@ -102,6 +110,11 @@ def get_all_orders(db: Session):
 
 def get_one_order(order_id: int, db: Session):
     db_order = db.get(Order, order_id)
+    if not db_order:
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail=f"Order with id {order_id} not found"
+        )
     return prepare_order_to_response(db_order)
 
 

@@ -3,7 +3,7 @@ from http import HTTPStatus
 from fastapi import HTTPException
 from sqlalchemy import func
 
-from models import OrderItem, Product
+from sql_app.models import OrderItem, Product
 
 
 def validate_product_availability(db, product_name):
@@ -45,10 +45,10 @@ def validate_and_get_order_items(db, items):
                 status_code=HTTPStatus.BAD_REQUEST,
                 detail=(
                     "The quantity of the product in the order exceeds its "
-                    "availability in stock."
-                    f"quantity {product_name} in order:  "
+                    "availability in stock. "
+                    f"Quantity {product_name} in order: "
                     f"{order_items[product_name]}; "
-                    f"quantity {product_name} in stock: "
+                    f"Quantity {product_name} in stock: "
                     f"{product_in_db.quantity_in_stock}."
                 )
             )
