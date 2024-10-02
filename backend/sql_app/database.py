@@ -10,11 +10,11 @@ load_dotenv()
 
 @cache
 def get_maker():
-    db_user = os.getenv('DB_USER')
-    db_pass = os.getenv('DB_PASS')
+    db_user = os.getenv('POSTGRES_USER')
+    db_pass = os.getenv('POSTGRES_PASSWORD')
     db_host = os.getenv('DB_HOST')
     db_port = os.getenv('DB_PORT')
-    db_name = os.getenv('DB_NAME')
+    db_name = os.getenv('POSTGRES_DB')
     sqlalchemy_database_url = (
         f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
     )

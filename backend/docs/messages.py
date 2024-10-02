@@ -1,6 +1,4 @@
-from docs.response_schemas import Message
-
-description = """
+DESCRIPTION = """
 The warehouse api is used for order management
 and product availability control.
 ## products

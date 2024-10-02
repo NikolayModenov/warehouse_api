@@ -3,11 +3,11 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
-from docs.response_schemas import (
+from docs.responses import (
     create_order_responses, create_product_responses, delete_product_responses,
     order_not_found_responses, product_not_found_responses
 )
-from docs.messages import description
+from docs.messages import DESCRIPTION
 from sql_app.crud import (
     create_order, create_product, del_product, get_all_orders,
     get_all_products, get_one_order, get_one_product, put_product, update_order
@@ -20,7 +20,7 @@ from sql_app.schemas import (
 
 APP = FastAPI(
     title="warehouse_api",
-    description=description
+    description=DESCRIPTION
 )
 
 DATABASE_SESSION = Depends(get_db)
