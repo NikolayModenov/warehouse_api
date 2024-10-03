@@ -35,44 +35,31 @@
 
 - ```cd warehouse_api/```
 
-3. Создайте виртуальное окружение и подключитель к нему.
+3. Создайте виртуальное окружение и подключитесь к нему.
 
 - ```python -m venv venv``` - создание окружения
 - ```source venv/Scripts/activate``` - подключение к созданному окружению
 
 4. Создайте в корневой директории проекта файл .env и внесите в него переменные:
 
-- SECRET_KEY = (полученный ранее Secret key)
-- ALLOWED_HOSTS = (ip адресс вашего сервера), 127.0.0.1, localhost, food-gram.ru
 - POSTGRES_USER = (имя пользователя базы данных postgres)
 - POSTGRES_PASSWORD = (пароль базы данных postgres)
 - POSTGRES_DB = (название базы данных postgres)
-- DB_HOST = (название хоста)
+- DB_HOST = (название контейнера с базой данных postgres)
 - DB_PORT = (порт сервера для подключения базы данных postgres)
 
-5. Перейдите в директорию backend, где располагается файл manage.py:
+5. Для запуска приложения введите в терминале следующие команды:
 
-- ```cd backend/```
+- ```docker compose up -d``` - создание билдов и запуск контейнеров приложения в фоновом режиме
+- ```alembic upgrade head``` - применение миграций для базы данных
 
-6. Запустите backend сервер:
+6. Для остановки работы приложения введите:
 
-- ```python manage.py migrate``` - запуск миграций в базе данных.
-- ```python manage.py loaddata data/tags.json``` - наполнение базы данных тэгами.
-- ```python manage.py loaddata data/ingredients.json``` - наполнение базы данных ингредиентами.
-- ```python manage.py runserver``` - локальный запуск backend сервера.
-
-### Команды для наполнения базы данных на сервере
-
-на удалённом сервере перейдите в папку с файлом docker-compose.yml и введите следующие комманды
-
-```docker compose exec backend python manage.py loaddata data/tags.json``` - наполнение базы данных тэгами
-
-```docker compose exec backend python manage.py loaddata data/ingredients.json``` - наполнение базы данных ингредиентами
+- ```docker compose stop```
 
 ## Список приложений используемых для разработки проекта
 
-Бэкенд проекта реализован на базе django rest framework, фронтенд на базе Node.js.
-Аутентификация осуществляется при помощи djoser.
-Для автоматизации развёртывания применяется docker.
-Взаимосвязь контейнеров docker осуществляется при помощи прокси-сервера nginx.
-Wsgi server - gunicorn, осуществляет взаимодействие nginx и django rest framework.
+Бэкенд проекта реализован на базе FastAPI. Используется база данных PostgreSQL.
+Работа с базой данных производится при помощи SQLAlchemy. Для валидации запросов и ответов применяется Pydantic.
+Для отслеживания и применения миграций применяется Alembic.
+Для автоматизации развёртывания применяется docker compose.
